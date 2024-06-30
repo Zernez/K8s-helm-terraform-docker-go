@@ -3,7 +3,7 @@ name: goapp pipeline
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
 
@@ -18,17 +18,30 @@ jobs:
         with:
           go-version: '1.19'
 
+      # Build and test go app   
+
+      - name: Build
+        run: go build -v .
+
       - name: Run tests
-      # -v to provide detailed logging ./... run tests from current and all subdirectories 
-        run: go test -v ./...
+        run: go test -v .
       
-      # Use github env to pass variable
-      - name: Generate Image Name
+      # Build and push to the registry the images
+
+      - name: Generate
         id: image_name
         run: echo "IMAGE_NAME=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: docker build -t ttl.sh/${IMAGE_NAME}:1h .
 
-      - name: Push the image to ttl.sh
+      - name: Push Docker image to the ttl registry
         run: docker push ttl.sh/${IMAGE_NAME}:1h
+      
+      # Deploy to prod
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        working-directory: ./k8s
+        run: |-
+          kubectl apply -f .
