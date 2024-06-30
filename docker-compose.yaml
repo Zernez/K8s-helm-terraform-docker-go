@@ -1,0 +1,34 @@
+version: "3.8"
+
+networks:
+  gotest:
+
+services:
+
+  goredis:
+    container_name: "goredis"
+    image: goredis:latest
+    networks:
+      - gotest
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    healthcheck:
+      test: ["CMD", "sleep", "1"]
+      interval: 3s
+      timeout: 2s
+      retries: 1
+      start_period: 3s
+
+  goapp:
+    container_name: "goapp"
+    image: goapp:latest
+    depends_on:
+      redis:
+        condition: service_healthy
+    build: .
+    ports:
+      - 5000:4444
+    command: ["/main"]
+    networks:
+      - gotest
+
+

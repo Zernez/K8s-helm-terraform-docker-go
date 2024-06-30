@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goredis-deployment
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: goredis:latest
+        args: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+        volumeMounts:
+        - name: redis-storage
+          mountPath: "/var/lib/redis" 
+        imagePullPolicy: Never  
+      restartPolicy: Always
+
+      volumes:
+      - name: redis-storage
+        persistentVolumeClaim:
+          claimName: redis-pvc
+
+
+

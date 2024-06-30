@@ -1,0 +1,14 @@
+FROM alpine:latest
+
+RUN apk add --no-cache git make go
+RUN wget -O go.tgz https://go.dev/dl/go1.19.13.src.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go.tgz
+
+RUN export PATH=$PATH:/usr/local/go/bin
+
+WORKDIR /
+COPY .  .
+
+RUN go build -o main .
+
+EXPOSE 4444
