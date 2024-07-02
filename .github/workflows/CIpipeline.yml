@@ -72,11 +72,4 @@ jobs:
           minikube service list
           minikube service goapp-service --url
           echo "------------------opening the service------------------"
-          curl $(minikube service go-app-service--url)
-
-
-
-
-      # - name: Deploy
-      #   run: |-
-      #     kubectl apply -f k8s/prod --validate=false
+          curl $(minikube service go-app-service --url)
