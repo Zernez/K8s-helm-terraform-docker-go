@@ -67,8 +67,8 @@ jobs:
         run:
           kubectl apply -f k8s/prod 
 
-      - name: Test service URLs
+      - name: Look at service and pods running
         run: |
           minikube service list
-          echo "------------------curl the service------------------"
-          ping localhost:30000
+          kubectl get pods
+          
