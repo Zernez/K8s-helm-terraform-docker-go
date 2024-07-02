@@ -25,7 +25,7 @@ jobs:
       - name: Test
         run: go test -v .
       
-      # Build and push to the registry the images
+      # Build and push to the registry the prod images 
       - name: Generate UUID GoApp
         id: UUID_goapp
         run: echo "IMAGE_NAME_APP=$(uuidgen)" >> $GITHUB_ENV
@@ -35,10 +35,10 @@ jobs:
         run: echo "IMAGE_NAME_REDIS=$(uuidgen)" >> $GITHUB_ENV
 
       - name: Build GoApp Docker image
-        run: docker build -f DockerfileGo -t ttl.sh/${IMAGE_NAME_APP}:10m .
+        run: docker build -f docker/prod/Dockerfile.go.prod -t ttl.sh/${IMAGE_NAME_APP}:10m .
       
       - name: Build Redis Docker image       
-        run: docker build -f DockerfileRedis -t ttl.sh/${IMAGE_NAME_REDIS}:10m .
+        run: docker build -f docker/prod/Dockerfile.redis.prod  -t ttl.sh/${IMAGE_NAME_REDIS}:10m .
 
       - name: Push GoApp Docker image to the ttl registry
         run: docker push ttl.sh/${IMAGE_NAME_APP}:10m
