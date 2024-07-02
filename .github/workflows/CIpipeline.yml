@@ -43,10 +43,10 @@ jobs:
       - name: Push GoApp Docker image to the ttl registry
         run: docker push ttl.sh/${IMAGE_NAME_APP}:10m
       
-      - name: Push GoApp Docker image to the ttl registry
+      - name: Push Redis Docker image to the ttl registry
         run: docker push ttl.sh/${IMAGE_NAME_REDIS}:10m
       
       # Deploy to prod
-      - name: Deploy
-        run: |-
-          kubectl apply -f k8s/prod
+      # - name: Deploy
+      #   run: |-
+      #     kubectl apply -f k8s/prod --validate=false
