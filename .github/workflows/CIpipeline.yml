@@ -72,4 +72,4 @@ jobs:
           minikube service list
           minikube service goapp-service --url
           echo "------------------opening the service------------------"
-          curl $(minikube service goapp-service --url)
+          curl $(minikube service goapp-deployment --url)
