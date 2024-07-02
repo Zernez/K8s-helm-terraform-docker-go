@@ -48,7 +48,5 @@ jobs:
       
       # Deploy to prod
       - name: Deploy
-        if: github.ref == 'refs/heads/main'
-        working-directory: ./k8s
         run: |-
-          kubectl apply -f .
+          kubectl apply -f k8s/prod
