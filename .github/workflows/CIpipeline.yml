@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-
+  
   test:
     runs-on: ubuntu-22.04
     steps:
@@ -47,6 +47,36 @@ jobs:
         run: docker push ttl.sh/${IMAGE_NAME_REDIS}:10m
       
       # Deploy to prod
+      - name: build example and deploy to minikube
+        uses: actions
+        with:
+          repository: Zernez/UNIwise
+
+      - name: Start minikube
+        uses: medyagh/setup-minikube@latest
+      
+      - name: Try the cluster!
+        run: kubectl get pods -A
+
+      - name: Build images
+        run: |
+          minikube image build -f docker/prod/Dockerfile.go.prod . -t goappprod:latest
+          minikube image build -f docker/prod/Dockerfile.redis.prod . -t goredisprod:latest 
+
+      - name: Deploy to minikube
+        run:
+          kubectl apply -f k8s/prod 
+
+      - name: Test service URLs
+        run: |
+          minikube service list
+          minikube service goapp-service --url
+          echo "------------------opening the service------------------"
+          curl $(minikube service go-app-service--url)
+
+
+
+
       # - name: Deploy
       #   run: |-
       #     kubectl apply -f k8s/prod --validate=false
