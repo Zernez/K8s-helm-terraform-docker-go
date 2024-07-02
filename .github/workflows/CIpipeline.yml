@@ -65,10 +65,19 @@ jobs:
 
       - name: Deploy to minikube
         run:
-          kubectl apply -f k8s/prod 
+          kubectl apply -f k8s/prod/configmap.yaml
+          kubectl apply -f k8s/prod/nodeport.yaml
+          kubectl apply -f k8s/prod/secret.yaml
+          kubectl apply -f k8s/prod/service-app.yaml
+          kubectl apply -f k8s/prod/service-redis.yaml
+          kubectl apply -f k8s/prod/volume-redis.yaml      
+          kubectl apply -f k8s/prod/deployment-redis.yaml
+          sleep(10)
+          kubectl apply -f k8s/prod/service-app.yaml              
 
-      - name: Look at service and pods running
+      - name: Test service URLs
         run: |
           minikube service list
-          kubectl get pods
-          
+          minikube service goapp-service --url
+          echo "------------------opening the service------------------"
+          curl $(minikube service goapp-deployment --url)
