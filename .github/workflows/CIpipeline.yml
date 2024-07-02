@@ -71,4 +71,4 @@ jobs:
         run: |
           minikube service list
           echo "------------------curl the service------------------"
-          curl $(http://localhost:30000)
+          ping localhost:30000
