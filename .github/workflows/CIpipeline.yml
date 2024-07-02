@@ -64,7 +64,7 @@ jobs:
           minikube image build -f docker/prod/Dockerfile.redis.prod . -t goredisprod:latest 
 
       - name: Deploy to minikube
-        run:
+        run: |
           kubectl apply -f k8s/prod/configmap.yaml
           kubectl apply -f k8s/prod/nodeport.yaml
           kubectl apply -f k8s/prod/secret.yaml
