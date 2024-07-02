@@ -70,6 +70,5 @@ jobs:
       - name: Test service URLs
         run: |
           minikube service list
-          minikube service goapp-service --url
-          echo "------------------opening the service------------------"
-          curl $(minikube service goapp-deployment --url)
+          echo "------------------curl the service------------------"
+          curl $(http://localhost:30000)
