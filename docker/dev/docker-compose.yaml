@@ -1,0 +1,27 @@
+version: "3.8"
+
+networks:
+  gotest:
+    driver: bridge
+
+services:
+
+  goappdev:
+    container_name: "goapp"
+    image: goappdebug:latest
+    build: .
+    ports:
+      - 5000:4444
+      - 4000:4000
+      - 6379:6379
+    environment:
+      PORT: 4444
+      REDIS_URL: redis://localhost:6379
+      SECRET_KEY: '["16f78a7d6317f102bbd95fc9a4f3ff2e3249287690b8bdad6b7810f82b34ace3","8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"]'
+    command: >
+      /bin/sh -c "redis-server /usr/local/etc/redis/redis.conf
+      && /go/bin/dlv --listen=:4000 --headless=true --log=true --accept-multiclient --api-version=2 exec main"
+    networks:
+      - gotest
+
+

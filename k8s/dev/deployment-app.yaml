@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goapp-deployment
+  labels:
+    app: goapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goapp
+  template:
+    metadata:
+      labels:
+        app: goapp
+    spec:
+      containers:
+      - name: goapp
+        image: goappdev:latest
+        args: ["/main"]
+        ports:
+          - containerPort: 4444
+            protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: goapp-config
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: goapp-secrets
+              key: users.json
+        volumeMounts:
+        - name: secret-volume
+          mountPath: "/app/secrets"
+          readOnly: true
+        imagePullPolicy: Never  
+      restartPolicy: Always
+
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: goapp-secrets

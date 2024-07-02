@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: goredis:latest
+        image: goredisdev:latest
         args: ["redis-server", "/usr/local/etc/redis/redis.conf"]
         volumeMounts:
         - name: redis-storage

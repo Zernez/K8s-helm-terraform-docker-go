@@ -3,13 +3,14 @@ version: "3.8"
 networks:
   gotest:
 
+volumes:
+  goredis:
+
 services:
 
   goredis:
     container_name: "goredis"
-    image: goredis:latest
-    networks:
-      - gotest
+    image: goredisprod:latest
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     healthcheck:
       test: ["CMD", "sleep", "1"]
@@ -17,18 +18,28 @@ services:
       timeout: 2s
       retries: 1
       start_period: 3s
+    volumes:
+      - goredis:/var/lib/redis
+    networks:
+      - gotest
 
   goapp:
     container_name: "goapp"
-    image: goapp:latest
+    image: goappprod:latest
     depends_on:
-      redis:
+      goredis:
         condition: service_healthy
     build: .
     ports:
       - 5000:4444
+      - 4000:4000
+    environment:
+      PORT: 4444
+      REDIS_URL: redis://goredis:6379
+      SECRET_KEY: '["16f78a7d6317f102bbd95fc9a4f3ff2e3249287690b8bdad6b7810f82b34ace3","8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"]'
     command: ["/main"]
     networks:
       - gotest
+
 
 

@@ -7,7 +7,9 @@ RUN rm -rf /usr/local/go && tar -C /usr/local -xzf go.tgz
 RUN export PATH=$PATH:/usr/local/go/bin
 
 WORKDIR /
-COPY .  .
+
+COPY ../../go.mod ../../go.sum ../../main_test.go ../../main.go /  
+COPY ../../public/ /public
 
 RUN go build -o main .
 

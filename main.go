@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"errors"
 	"io"
@@ -14,7 +16,6 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/go-redis/redis"
 	"github.com/gorilla/websocket"
-	"github.com/joho/godotenv"
 )
 
 const (
@@ -142,14 +143,10 @@ var index string
 var appjs string
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Println(err)
-	}
 
 	port := os.Getenv("PORT")
-
 	redisURL := os.Getenv("REDIS_URL")
+
 	opt, err := redis.ParseURL(redisURL)
 	if err != nil {
 		panic(err)
@@ -158,24 +155,23 @@ func main() {
 	rdb = redis.NewClient(opt)
 	// check the connection to the client because errors are silent
 	_, err = rdb.Ping().Result()
-    if err != nil {
-        log.Print(err)
-    }
-
-	b, err := os.ReadFile("secrets/users.json")
 	if err != nil {
-		panic(err)
+		log.Print(err)
 	}
-	if err := users.FromJson(string(b)); err != nil {
+
+	// Decoded in Base64 from sha256
+	secret := os.Getenv("SECRET_KEY")
+
+	if err := users.FromJson(secret); err != nil {
 		panic(err)
 	}
 
 	broadcaster = rdb.Subscribe(PubSubTopic)
 	// check the topic subscription to the client because errors are silent
 	_, err = broadcaster.Receive()
-    if err != nil {
+	if err != nil {
 		log.Print(err)
-    }
+	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(index))
@@ -225,8 +221,13 @@ func (u *Users) FromJson(in string) error {
 }
 
 func (u Users) ValidUser(in string) bool {
+
+	// encode from string to sha256
+	hash := sha256.Sum256([]byte(in))
+	hashHex := hex.EncodeToString(hash[:])
+
 	for _, usr := range u {
-		if usr == in {
+		if usr == hashHex {
 			return true
 		}
 	}

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: goapp
-        image: goapp:latest
+        image: goappprod:latest
         args: ["/main"]
         ports:
           - containerPort: 4444
@@ -24,6 +24,12 @@ spec:
         envFrom:
         - configMapRef:
             name: goapp-config
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: goapp-secrets
+              key: users.json
         volumeMounts:
         - name: secret-volume
           mountPath: "/app/secrets"

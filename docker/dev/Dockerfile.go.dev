@@ -1,0 +1,10 @@
+FROM golang:1.19-alpine
+
+WORKDIR /
+COPY ../../go.mod ../../go.sum ../../main_test.go ../../main.go /  
+COPY ../../public/ /public
+
+RUN go build -o main .
+
+EXPOSE 4444 4000
+
