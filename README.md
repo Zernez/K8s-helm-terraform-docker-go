@@ -1,6 +1,7 @@
 # DevOps Assignment
 
-![GODevOpsProject](https://github.com/Zernez/UNIwise/actions/workflows/CIpieline.yml)
+![GODevOpsProject](https://github.com/Zernez/UNIwise/actions/workflows/CIpieline.yml/badge.svg)
+![GODevOpsProject](.github/workflows/CIpieline.yml)
 
 ## About the Assignment
 The assignment consists of multiple steps where each step builds upon the previous. So to avoid having to redo something it is recommended to read the whole assignment before diving in. 
