@@ -73,7 +73,7 @@ jobs:
           kubectl apply -f k8s/prod/volume-redis.yaml      
           kubectl apply -f k8s/prod/deployment-redis.yaml
           sleep 10
-          kubectl apply -f k8s/prod/service-app.yaml              
+          kubectl apply -f k8s/prod/deployment-app.yaml              
 
       - name: Test service URLs
         run: |
