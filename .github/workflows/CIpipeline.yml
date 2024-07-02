@@ -73,11 +73,13 @@ jobs:
           kubectl apply -f k8s/prod/volume-redis.yaml      
           kubectl apply -f k8s/prod/deployment-redis.yaml
           sleep 10
-          kubectl apply -f k8s/prod/deployment-app.yaml              
+          kubectl apply -f k8s/prod/deployment-app.yaml
+          sleep 10
+          kubectl get pods              
 
       - name: Test service URLs
         run: |
           minikube service list
-          minikube service goapp-service --url
+          minikube service goapp-deployment --url
           echo "------------------opening the service------------------"
           curl $(minikube service goapp-deployment --url)
