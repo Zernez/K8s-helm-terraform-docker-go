@@ -25,7 +25,7 @@ jobs:
       - name: Test
         run: go test -v .
       
-      Build and push to the registry the prod images 
+      # Build and push to the registry the prod images 
       - name: Generate UUID GoApp
         id: UUID_goapp
         run: echo "IMAGE_NAME_APP=$(uuidgen)" >> $GITHUB_ENV
