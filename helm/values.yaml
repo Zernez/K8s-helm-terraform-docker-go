@@ -1,0 +1,9 @@
+goapp:
+  port: 4444
+  secretKey: "users.json"
+redis:
+  replicaCount: 1
+  port: 6379
+
+namespaces:
+  enabled: false

@@ -1,0 +1,16 @@
+goapp:
+  image: "goappprod:latest"
+  replicaCount: 1
+  externalport: 30000
+redis:
+  image: "goredisprod:latest"
+  storage: "256Mi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+namespaces:
+  name: "default"

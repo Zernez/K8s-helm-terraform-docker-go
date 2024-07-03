@@ -14,6 +14,9 @@ All the project is conducted in a CI environment by Github Workflows.
 - Kubernetes cluster
 - GO (only for debugging)
 - VSC (only for debugging)
+- Helm
+- AWS CLI
+- Terraform
 
 ## Deploy
 
@@ -38,3 +41,19 @@ All the project is conducted in a CI environment by Github Workflows.
 2. Deploy the application: `kubectl apply -f k8s/prod`
 
 3. Access the application at `http://localhost:30000`
+
+### Helm/Kubernetes Deployment
+
+1. Start the kubernetes cluster
+
+2. Deploy the application: `helm install helm ./helm -f ./helm/values-prod.yaml`
+
+3. Access the application at `http://localhost:30000`
+
+### Terraform Deployment
+
+1. ...
+
+2. ...
+
+3. ...

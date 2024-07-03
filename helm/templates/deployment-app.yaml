@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goapp-deployment
+  labels:
+    app: goapp
+    namespace: {{ .Values.namespaces.name }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.goapp.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: goapp
+  template:
+    metadata:
+      labels:
+        app: goapp
+    spec:
+      containers:
+      - name: goapp
+        image: {{ .Values.goapp.image }}
+        args: ["/main"]
+        ports:
+          - containerPort: {{ .Values.goapp.port }}
+            protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: goapp-config
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: goapp-secrets
+              key: {{ .Values.goapp.secretKey }}
+        volumeMounts:
+        - name: secret-volume
+          mountPath: "/app/secrets"
+          readOnly: true
+        imagePullPolicy: Never  
+      restartPolicy: Always
+      
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: goapp-secrets

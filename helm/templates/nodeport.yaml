@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: goapp-deployment
+  namespace: {{ .Values.namespaces.name }}
+spec:
+  type: NodePort
+  ports:
+  - port: {{ .Values.goapp.externalport }}
+    targetPort: {{ .Values.goapp.port }}
+    nodePort: {{ .Values.goapp.externalport }}
+  selector:
+    app: goapp
