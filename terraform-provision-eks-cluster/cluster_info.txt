@@ -1,0 +1,4 @@
+cluster_endpoint = "https://8A947D23C49FB443DF9213EDABFDDF9F.gr7.eu-north-1.eks.amazonaws.com"
+cluster_name = "education-eks-bRyiG0gs"
+cluster_security_group_id = "sg-0c284d925dd95543c"
+region = "eu-north-1"

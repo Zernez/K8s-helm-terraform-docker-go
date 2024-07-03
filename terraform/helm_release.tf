@@ -13,9 +13,9 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "nginx" {
+resource "helm_release" "goapphelm" {
   name       = "helm"
-  repository = "../helm"
+  repository = "../"
   chart      = "helm"
 
   values = [

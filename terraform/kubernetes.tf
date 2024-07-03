@@ -8,7 +8,7 @@ provider "aws" {
 data "terraform_remote_state" "eks" {
   backend = "local"
   config = {
-    path = "../learn-terraform-provision-eks-cluster/terraform.tfstate"
+    path = "../terraform-provision-eks-cluster/terraform.tfstate"
   }
 }
 
@@ -31,9 +31,9 @@ provider "kubernetes" {
   }
 }
 
-data "kubernetes_service" "nginx" {
-  depends_on = [helm_release.nginx]
+data "kubernetes_service" "goapphelm" {
+  depends_on = [helm_release.goapphelm]
   metadata {
-    name = "nginx"
+    name = "goapphelm"
   }
 }
