@@ -14,9 +14,9 @@ provider "helm" {
 }
 
 resource "helm_release" "goapphelm" {
-  name         = "helmapp"
+  name         = "helm"
   repository   = "https://zernez.github.io/K8s-helm-terraform-docker-go"
-  chart        = "helmapp"
+  chart        = "helm"
 
   values = [
     file("../helm/values.yaml"),
