@@ -31,9 +31,9 @@ provider "kubernetes" {
   }
 }
 
-data "kubernetes_service" "goapphelm" {
+data "kubernetes_service" "goappterraform" {
   depends_on = [helm_release.goapphelm]
   metadata {
-    name = "goapphelm"
+    name = "goappterraform"
   }
 }

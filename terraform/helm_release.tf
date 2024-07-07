@@ -14,11 +14,12 @@ provider "helm" {
 }
 
 resource "helm_release" "goapphelm" {
-  name       = "helm"
-  repository = "https://zernez.github.io/K8s-helm-terraform-docker-go"
-  chart      = "helm"
+  name         = "helm"
+  repository   = "https://zernez.github.io/K8s-helm-terraform-docker-go"
+  chart        = "helm"
 
   values = [
+    file("../helm/values.yaml"),
     file("../helm/values-prod.yaml")
   ]
 }
