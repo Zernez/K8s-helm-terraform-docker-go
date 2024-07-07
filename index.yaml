@@ -3,12 +3,12 @@ entries:
   helm:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-07-03T20:35:11.313032304+02:00"
+    created: "2024-07-07T18:22:13.5755528+02:00"
     description: A Helm chart for Kubernetes
     digest: b2ddcff43952e8f9687e08c70b24eb75de6da62d95b16a6054e27b180f25a927
     name: helm
     type: application
     urls:
-    - https://Zernez.github.io/UNIwise/helm-0.1.0.tgz
+    - https://zernez.github.io/K8s-helm-terraform-docker-go/helm-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-03T20:35:11.312646568+02:00"
+generated: "2024-07-07T18:22:13.574309+02:00"
