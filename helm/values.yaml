@@ -7,5 +7,4 @@ redis:
 
 namespaces:
   enabled: false
-autoscaling:
-  enabled: false
+
